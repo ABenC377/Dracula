@@ -1,0 +1,13 @@
+<div>
+  <div>
+    <h3>Your hand:</h3>
+  </div>
+  <table>
+    <tr>
+      <app-card
+        *ngFor="let card of handCards"
+        [card]="card">
+      </app-card>
+    </tr>
+  </table>
+</div>

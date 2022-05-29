@@ -1,0 +1,8 @@
+<div *ngIf="card">
+  <h2>{{card.value | uppercase}}</h2><br>
+  <div>{{card.suit}}</div>
+  <div>
+    <label for="card-id">Card ID: </label>
+    <input id="card-id" [(ngModel)]="card.id" placeholder="ID">
+  </div>
+</div>

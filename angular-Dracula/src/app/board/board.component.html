@@ -1,0 +1,31 @@
+<div>
+  <table>
+    <tr>
+      <td class="blank"></td>
+      <td class="colScore" id="col1Score">Column 1 Score</td>
+      <td class="colScore" id="col2Score">Column 2 Score</td>
+      <td class="colScore" id="col3Score">Column 3 Score</td>
+    </tr>
+    <tr>
+      <td class="rowScore" id="row1Score">Row 1 Score</td>
+      <app-card
+        *ngFor="let card of boardConfiguration.slice(0, 3)"
+        [card]="card"
+      ></app-card>
+    </tr>
+    <tr>
+      <td class="rowScore" id="row2Score">Row 2 Score</td>
+      <app-card
+        *ngFor="let card of boardConfiguration.slice(3, 6)"
+        [card]="card"
+      ></app-card>
+    </tr>
+    <tr>
+      <td class="rowScore" id="row3Score">Row 3 Score</td>
+      <app-card
+        *ngFor="let card of boardConfiguration.slice(6, 9)"
+        [card]="card"
+      ></app-card>
+    </tr>
+  </table>
+</div>
