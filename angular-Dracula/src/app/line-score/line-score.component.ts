@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Card } from '../card';
 
 @Component({
@@ -6,7 +6,7 @@ import { Card } from '../card';
   templateUrl: './line-score.component.html',
   styleUrls: ['./line-score.component.css']
 })
-export class LineScoreComponent implements OnInit {
+export class LineScoreComponent {
   totalScore: number;
   totalRed: number;
   totalBlack: number;
@@ -31,7 +31,15 @@ export class LineScoreComponent implements OnInit {
     this.jokerPlayed = false;
   }
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    this.totalScore = 0;
+    this.totalRed = 0;
+    this.totalBlack = 0;
+    this.totalClub = 0;
+    this.totalDiamond = 0;
+    this.totalHeart = 0;
+    this.totalSpade = 0;
+    this.jokerPlayed = false;
     for (let i = 0; i < this.lineCards.length; i += 1){
       let lineCard = this.lineCards[i];
       if (lineCard.value == "empty"){
