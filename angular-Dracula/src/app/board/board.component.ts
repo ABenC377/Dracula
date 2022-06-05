@@ -63,7 +63,8 @@ export class BoardComponent {
     if (this.handCardSelected){
 
       // Check to make sure selected board position is empty
-      if (selectedCard.suit == "empty"){
+      // And that a card has been played in an adjacent position
+      if (selectedCard.suit == "empty" && (this.card2.suit != "empty" || this.card4.suit != "empty")){
 
         // Replace selected empty card
         this.boardConfiguration[0] = this.selectedHandCard;
@@ -90,7 +91,7 @@ export class BoardComponent {
   // And for card position 3
   onSelectCard3(selectedCard: Card){
     if (this.handCardSelected){
-      if (selectedCard.suit == "empty"){
+      if (selectedCard.suit == "empty" && (this.card2.suit != "empty" || this.card6.suit != "empty")){
         this.boardConfiguration[2] = this.selectedHandCard;
         this.card3 = this.selectedHandCard;
         this.row1 = [this.card1, this.card2, this.card3];
@@ -142,7 +143,7 @@ export class BoardComponent {
   // And for card position 7
   onSelectCard7(selectedCard: Card){
     if (this.handCardSelected){
-      if (selectedCard.suit == "empty"){
+      if (selectedCard.suit == "empty" && (this.card8.suit != "empty" || this.card4.suit != "empty")){
         this.boardConfiguration[6] = this.selectedHandCard;
         this.card7 = this.selectedHandCard;
         this.row3 = [this.card7, this.card8, this.card9];
@@ -168,7 +169,7 @@ export class BoardComponent {
   // And for card position 9
   onSelectCard9(selectedCard: Card){
     if (this.handCardSelected){
-      if (selectedCard.suit == "empty"){
+      if (selectedCard.suit == "empty" && (this.card8.suit != "empty" || this.card6.suit != "empty")){
         this.boardConfiguration[8] = this.selectedHandCard;
         this.card9 = this.selectedHandCard;
         this.row3 = [this.card7, this.card8, this.card9];
