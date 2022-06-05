@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Card, emptyCard } from '../card'
 import { DECK } from '../card-deck';
 
@@ -53,6 +53,14 @@ export class GameComponent implements OnInit {
   ngOnInit() {
     this.dealRound();
     this.boardConfiguration = [emptyCard, emptyCard, emptyCard, emptyCard, this.startingCard, emptyCard, emptyCard, emptyCard, emptyCard];
+  }
+
+  ngOnChanges(changes: SimpleChanges){
+    // Check to see if round is over, and starts a new round if it is
+    if (this.handCards.length == 0 && this.opponentCards.length == 0){
+      this.dealRound();
+      this.boardConfiguration = [emptyCard, emptyCard, emptyCard, emptyCard, this.startingCard, emptyCard, emptyCard, emptyCard, emptyCard];
+    }
   }
 
   dealRound(){
