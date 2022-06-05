@@ -11,10 +11,13 @@ export class GameComponent implements OnInit {
   deck: Card[];
   round: number;
   playerTurn: boolean;
+  playerIsKing: boolean;
+  playerIsCols: boolean;
   handCards: Card[];
   opponentCards: Card[];
   roundScores: number[];
-  gameScores: number[];
+  playerScores: number[];
+  opponentScores: number[];
   startingCard!: Card;
   boardConfiguration!: Card[];
   selectedHandCard!: Card;
@@ -22,14 +25,17 @@ export class GameComponent implements OnInit {
 
   constructor(){
     this.deck = DECK;
-    this.round = 1;
+    this.round = 0;
     this.playerTurn = true;
+    this.playerIsKing = true;
+    this.playerIsCols = true;
     this.handCards = [];
     this.opponentCards = [];
     this.selectedHandCard = emptyCard;
     this.handCardSelected = false;
     this.roundScores = [0, 0, 0, 0, 0, 0];
-    this.gameScores = [];
+    this.playerScores = [];
+    this.opponentScores = [];
   }
 
   onForwardSelectedCard(selectedCard: Card){
@@ -74,12 +80,21 @@ export class GameComponent implements OnInit {
         }
       }
 
-      this.round += 1;
-      if (this.round > 6) {
+      if (this.playerIsCols) {
+        this.playerScores.push(bestColScore);
+        this.opponentScores.push(bestRowScore);
+      } else {
+        this.playerScores.push(bestRowScore);
+        this.opponentScores.push(bestColScore);
+      }
+      if (this.round >= 6) {
         // End the game here
       }
       // Pop up a message about the winner of that round
-      else {setTimeout(() => this.dealRound(), 5000)}
+      else {
+        setTimeout(() => this.dealRound(), 5000);
+      }
+
     }
   }
 
@@ -114,6 +129,7 @@ export class GameComponent implements OnInit {
       this.handCards.push(this.deck.pop() as Card);
       this.opponentCards.push(this.deck.pop() as Card);
       this.boardConfiguration = [emptyCard, emptyCard, emptyCard, emptyCard, this.startingCard, emptyCard, emptyCard, emptyCard, emptyCard];
+      this.round += 1;
     }
   }
 

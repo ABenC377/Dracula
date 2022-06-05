@@ -1,5 +1,9 @@
 <div class="scores">
-  <app-scores></app-scores>
+  <app-scores
+    [playerScores]="playerScores"
+    [opponentScores]="opponentScores"
+    [round]="round"
+  ></app-scores>
 </div>
 
 <div class="board">
