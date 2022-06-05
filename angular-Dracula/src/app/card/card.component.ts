@@ -10,7 +10,7 @@ import { Card } from '../card';
 export class CardComponent{
 
   constructor() { }
-
+  
   @Input() card!: Card;
 
   @Output() selectCard: EventEmitter<Card> = new EventEmitter<Card>();

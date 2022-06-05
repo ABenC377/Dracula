@@ -32,6 +32,7 @@ export class LineScoreComponent {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    // Reset all the score values to 0
     this.totalScore = 0;
     this.totalRed = 0;
     this.totalBlack = 0;
@@ -40,40 +41,53 @@ export class LineScoreComponent {
     this.totalHeart = 0;
     this.totalSpade = 0;
     this.jokerPlayed = false;
+
+    // Iterate through the line cards
     for (let i = 0; i < this.lineCards.length; i += 1){
       let lineCard = this.lineCards[i];
+
+      // if the card is an empty card then can ignore
       if (lineCard.value == "empty"){
         continue;
-      } else if (lineCard.value == "Joker"){
+      }
+      // If a joker is played then can ignore the maths steps
+      else if (lineCard.value == "Joker"){
         this.jokerPlayed = true;
         continue;
       }
+
+      // Add the card score to the total score
       if (this.isKing){
         this.totalScore += lineCard.KValue;
       } else {
         this.totalScore += lineCard.QValue;
       }
-      if (lineCard.suit == "Club"){
+
+      // Add the suit and colour to the counters
+      if (lineCard.suit == "Clubs"){
         this.totalBlack += 1;
         this.totalClub += 1;
-      } else if (lineCard.suit == "Diamond"){
+      } else if (lineCard.suit == "Diamonds"){
         this.totalRed += 1;
         this.totalDiamond += 1;
-      } else if (lineCard.suit == "Heart"){
+      } else if (lineCard.suit == "Hearts"){
         this.totalRed += 1;
         this.totalHeart += 1;
-      } else if (lineCard.suit == "Spade"){
+      } else if (lineCard.suit == "Spades"){
         this.totalBlack += 1;
         this.totalSpade += 1;
       }
-    }
+    };
+
+    // Now multiply depending on the suit/colour/joker counters
     if (this.jokerPlayed == true){
       this.totalScore = 0;
-    } else if ((this.totalClub == 3) || (this.totalDiamond == 3) || (this.totalHeart == 3) || (this.totalSpade == 3)){
+    }
+    if (this.totalClub == 3 || this.totalDiamond == 3 || this.totalHeart == 3 || this.totalSpade == 3){
       this.totalScore *= 5;
-    } else if ((this.totalRed == 3) || (this.totalBlack == 3)){
+    } else if (this.totalRed == 3 || this.totalBlack == 3){
       this.totalScore *= 3;
-    } else if ((this.totalClub == 2) || (this.totalDiamond == 2) || (this.totalHeart == 2) || (this.totalSpade == 2)){
+    } else if (this.totalClub == 2 || this.totalDiamond == 2 || this.totalHeart == 2 || this.totalSpade == 2){
       this.totalScore *= 2;
     }
   }
