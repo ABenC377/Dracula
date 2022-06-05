@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { Card } from '../card';
 
 @Component({
@@ -19,6 +19,8 @@ export class LineScoreComponent {
 
   @Input() isKing!: boolean;
   @Input() lineCards!: Card[];
+
+  @Output() scoreUpdated: EventEmitter<number> = new EventEmitter<number>();
 
   constructor() {
     this.totalScore = 0;
@@ -90,6 +92,7 @@ export class LineScoreComponent {
     } else if (this.totalClub == 2 || this.totalDiamond == 2 || this.totalHeart == 2 || this.totalSpade == 2){
       this.totalScore *= 2;
     }
+    this.scoreUpdated.emit(this.totalScore);
   }
 
 }

@@ -13,6 +13,8 @@ export class GameComponent implements OnInit {
   playerTurn: boolean;
   handCards: Card[];
   opponentCards: Card[];
+  roundScores: number[];
+  gameScores: number[];
   startingCard!: Card;
   boardConfiguration!: Card[];
   selectedHandCard!: Card;
@@ -26,6 +28,8 @@ export class GameComponent implements OnInit {
     this.opponentCards = [];
     this.selectedHandCard = emptyCard;
     this.handCardSelected = false;
+    this.roundScores = [0, 0, 0, 0, 0, 0];
+    this.gameScores = [];
   }
 
   onForwardSelectedCard(selectedCard: Card){
@@ -48,12 +52,44 @@ export class GameComponent implements OnInit {
     this.handCards = newHand;
     // Finally, we update the handCardSelected variable to reflect that a hand card is no longer selected.
     this.handCardSelected = false;
+
+    // And then we make the opponent make a move
+    if (this.opponentCards.length > 0){
+      this.opponentPlay();
+    }
+
+    // And then we see if the round is over.
+    // If it is, then we update the total scores, and start a new round.
+    if (this.handCards.length == 0 && this.opponentCards.length == 0) {
+      let bestColScore: number = 0;
+      let bestRowScore: number = 0;
+      for (let i = 0; i < 3; i += 1){
+        if (this.roundScores[i] > bestColScore) {
+          bestColScore = this.roundScores[i];
+        }
+      }
+      for (let i = 3; i < 6; i += 1) {
+        if (this.roundScores[i] > bestRowScore) {
+          bestRowScore = this.roundScores[i];
+        }
+      }
+
+      this.round += 1;
+      if (this.round > 6) {
+        // End the game here
+      }
+      // Pop up a message about the winner of that round
+      else {setTimeout(() => this.dealRound(), 5000)}
+    }
   }
 
-  ngOnInit() {
-    this.dealRound();
-    this.boardConfiguration = [emptyCard, emptyCard, emptyCard, emptyCard, this.startingCard, emptyCard, emptyCard, emptyCard, emptyCard];
+  onScoresUpdated(newScores: number[]){
+    this.roundScores = newScores;
   }
+
+  ngOnInit(){
+    this.dealRound();
+    }
 
   ngOnChanges(changes: SimpleChanges){
     // Check to see if round is over, and starts a new round if it is
@@ -63,7 +99,7 @@ export class GameComponent implements OnInit {
     }
   }
 
-  dealRound(){
+  dealRound(): void{
     if (this.deck.length < 9){
       // end game here
     } else {
@@ -77,6 +113,29 @@ export class GameComponent implements OnInit {
       this.opponentCards.push(this.deck.pop() as Card);
       this.handCards.push(this.deck.pop() as Card);
       this.opponentCards.push(this.deck.pop() as Card);
+      this.boardConfiguration = [emptyCard, emptyCard, emptyCard, emptyCard, this.startingCard, emptyCard, emptyCard, emptyCard, emptyCard];
+    }
+  }
+
+  isPlayable(index: number): boolean{
+    if (index == 1 || index == 3 || index == 4 || index == 5 || index == 7 || (index == 0 && (this.boardConfiguration[1].suit != "empty" || this.boardConfiguration[3].suit != "empty")) || (index == 2 && (this.boardConfiguration[1].suit != "empty" || this.boardConfiguration[5].suit != "empty")) || (index == 6 && (this.boardConfiguration[7].suit != "empty" || this.boardConfiguration[3].suit != "empty")) || (index == 8 && (this.boardConfiguration[7].suit != "empty" || this.boardConfiguration[5].suit != "empty"))) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  opponentPlay(): void{
+    let opponentCardHasBeenPlayed: boolean = false;
+    let index: number = 0;
+    while (opponentCardHasBeenPlayed == false){
+      if (this.boardConfiguration[index].suit == "empty" && this.isPlayable(index)){
+        this.boardConfiguration[index] = this.opponentCards.pop() as Card;
+        opponentCardHasBeenPlayed = true;
+        this.playerTurn = true;
+      } else {
+        index += 1;
+      }
     }
   }
 

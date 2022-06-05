@@ -8,6 +8,7 @@ import { Card } from '../card';
 })
 export class BoardComponent {
   isKing: boolean;
+  scores: number[];
   card1!: Card;
   card2!: Card;
   card3!: Card;
@@ -29,10 +30,14 @@ export class BoardComponent {
   @Input() selectedHandCard!: Card;
 
   @Output() handCardPlayed: EventEmitter<Card> = new EventEmitter<Card>();
+  @Output() scoresUpdated: EventEmitter<number[]> = new EventEmitter<number[]>();
 
   constructor() {
     // As a default, we set this to true, though we will alter implemnt this to be changable before the game.
     this.isKing = true;
+
+    // The first three values are the column scores, and the last three are the row scores
+    this.scores = [0, 0, 0, 0, 0, 0];
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -177,5 +182,36 @@ export class BoardComponent {
         this.handCardPlayed.emit(this.selectedHandCard);
       }
     }
+  }
+
+  // When a score is updated, update the current score array
+  onScoreUpdatedCol1(newScore: number){
+    this.scores[0] = newScore;
+    this.scoresUpdated.emit(this.scores);
+  }
+
+  onScoreUpdatedCol2(newScore: number){
+    this.scores[1] = newScore;
+    this.scoresUpdated.emit(this.scores);
+  }
+
+  onScoreUpdatedCol3(newScore: number){
+    this.scores[2] = newScore;
+    this.scoresUpdated.emit(this.scores);
+  }
+
+  onScoreUpdatedRow1(newScore: number){
+    this.scores[3] = newScore;
+    this.scoresUpdated.emit(this.scores);
+  }
+
+  onScoreUpdatedRow2(newScore: number){
+    this.scores[4] = newScore;
+    this.scoresUpdated.emit(this.scores);
+  }
+
+  onScoreUpdatedRow3(newScore: number){
+    this.scores[5] = newScore;
+    this.scoresUpdated.emit(this.scores);
   }
 }

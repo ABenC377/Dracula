@@ -7,7 +7,8 @@
       [boardConfiguration]="boardConfiguration"
       [handCardSelected]="handCardSelected"
       [selectedHandCard]="selectedHandCard"
-      (handCardPlayed)="onHandCardPlayed($event)">
+      (handCardPlayed)="onHandCardPlayed($event)"
+      (scoresUpdated)="onScoresUpdated($event)">
     </app-board>
 </div>
 
