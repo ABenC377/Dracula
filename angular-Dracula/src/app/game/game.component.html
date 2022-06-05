@@ -3,9 +3,14 @@
 </div>
 
 <div class="board">
-    <app-board [boardConfiguration]="boardConfiguration"></app-board>
+    <app-board
+      [boardConfiguration]="boardConfiguration"
+      [handCardSelected]="handCardSelected"
+      [selectedHandCard]="selectedHandCard"
+      (handCardPlayed)="onHandCardPlayed($event)">
+    </app-board>
 </div>
 
 <div class="hand">
-  <app-hand [handCards]="handCards"></app-hand>
+  <app-hand [handCards]="handCards" (forwardSelectedCard)="onForwardSelectedCard($event)"></app-hand>
 </div>

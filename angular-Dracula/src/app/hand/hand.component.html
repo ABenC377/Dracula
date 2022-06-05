@@ -4,10 +4,9 @@
   </div>
   <table>
     <tr>
-      <app-card
-        *ngFor="let card of handCards"
-        [card]="card">
-      </app-card>
+      <td *ngFor="let card of handCards">
+        <app-card [card]="card" (selectCard)="onSelectCard($event)"></app-card>
+      </td>
     </tr>
   </table>
 </div>

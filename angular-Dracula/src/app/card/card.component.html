@@ -1,3 +1,5 @@
-<td>
-  <img src="{{ card.frontImage }}" alt="{{ card.value }} {{ card.suit }}" width="140" height="200">
-</td>
+<div class="card_div">
+  <button type="button" (click)="select(this.card)">
+    <img src="{{ card.frontImage }}" alt="{{ card.value }} {{ card.suit }}" width="70" height="100">
+  </button>
+</div>
