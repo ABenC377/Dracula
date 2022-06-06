@@ -6,5 +6,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Dracula';
+  title: string;
+  playGame: boolean;
+  playerTurn: boolean;
+  playerIsKing: boolean;
+  playerIsCols: boolean;
+
+  constructor() {
+    this.title = "Dracula";
+    this.playGame = false;
+    this.playerTurn = true;
+    this.playerIsKing = true;
+    this.playerIsCols = true;
+  }
+
+  startGame() {
+    this.playGame = true;
+  }
 }
