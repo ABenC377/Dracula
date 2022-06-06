@@ -19,5 +19,5 @@
 </div>
 
 <div class="hand">
-  <app-hand [handCards]="handCards" (forwardSelectedCard)="onForwardSelectedCard($event)"></app-hand>
+  <app-hand [handCards]="handCards" [isPlayerTurn]="isPlayerTurn" (forwardSelectedCard)="onForwardSelectedCard($event)"></app-hand>
 </div>

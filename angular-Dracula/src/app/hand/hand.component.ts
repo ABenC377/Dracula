@@ -11,6 +11,7 @@ export class HandComponent implements OnInit {
   selectedHandCard: Card;
 
   @Input() handCards!: Card[];
+  @Input() isPlayerTurn!: boolean;
   @Output() forwardSelectedCard: EventEmitter<Card> = new EventEmitter<Card>();
 
   constructor() {
@@ -18,8 +19,10 @@ export class HandComponent implements OnInit {
   }
 
   onSelectCard(selectedCard: Card){
-    this.selectedHandCard = selectedCard;
-    this.forwardSelectedCard.emit(this.selectedHandCard);
+    if (this.isPlayerTurn) {
+      this.selectedHandCard = selectedCard;
+      this.forwardSelectedCard.emit(this.selectedHandCard);
+    }
   }
 
   ngOnInit(): void {

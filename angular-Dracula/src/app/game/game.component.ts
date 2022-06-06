@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Card, emptyCard } from '../card'
 import { DECK } from '../card-deck';
 
@@ -7,7 +7,7 @@ import { DECK } from '../card-deck';
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
-export class GameComponent {
+export class GameComponent implements OnInit {
   deck: Card[];
   round: number;
   handCards: Card[];
@@ -43,28 +43,15 @@ export class GameComponent {
 
   onHandCardPlayed(playedCard: Card){
     // Update hand to remove played card
-    this.updateHand(playedCard);
-    // Update the handCardSelected variable to reflect that a hand card is no longer selected.
+    this.updateHandAfterCardPlayed(playedCard);
+    // Update the handCardSelected and isPlayerturn variables.
     this.handCardSelected = false;
-    // Opponent make a move
-    if (this.opponentCards.length > 0){
-      this.opponentPlay();
-    }
-    // Check whether the round is over. If it is, then we update the total scores, and start a new round.
-    if (this.handCards.length == 0 && this.opponentCards.length == 0) {
-      this.updateScoresAfterRound();
+    this.isPlayerTurn = false;
 
-      if (this.round >= 6) {
-        // End the game here
-      } else {
-        // Start next round
-        setTimeout(() => this.dealRound(), 5000);
-      }
-
-    }
+    this.nextStepAfterCardPlayed();
   }
 
-  updateHand(cardPlayed: Card) {
+  updateHandAfterCardPlayed(cardPlayed: Card) {
     // We make a new temporary hand
     let newHand: Card[] = [];
     // Iterate through the previous hand, and where the card is not the played card,
@@ -106,30 +93,45 @@ export class GameComponent {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges){
+  ngOnInit(){
+    this.dealRound();
+    if (!this.isPlayerTurn && this.opponentCards.length > 0) {
+      this.opponentPlay();
+    }
+  }
+
+  nextStepAfterCardPlayed() {
     // Check to see if round is over, and starts a new round if it is
     if (this.handCards.length == 0 && this.opponentCards.length == 0){
-      this.dealRound();
-      this.boardConfiguration = [emptyCard, emptyCard, emptyCard, emptyCard, this.startingCard, emptyCard, emptyCard, emptyCard, emptyCard];
+      if (this.round >= 6) {
+        this.updateScoresAfterRound();
+        // End the game here
+      } else {
+        this.updateScoresAfterRound();
+        setTimeout(() => this.dealRound(), 5000);
+      }
+    }
+    // Check to see if it is opponent's turn, and opponent has cards to play
+    if (!this.isPlayerTurn && this.opponentCards.length > 0) {
+      this.opponentPlay();
     }
   }
 
   dealRound(): void{
-    if (this.deck.length < 9){
-      // end game here
-    } else {
-      // Removes cards from the deck, and puts them into the starting positions/has.
-      this.startingCard = this.deck.pop() as Card;
-      this.handCards.push(this.deck.pop() as Card);
-      this.opponentCards.push(this.deck.pop() as Card);
-      this.handCards.push(this.deck.pop() as Card);
-      this.opponentCards.push(this.deck.pop() as Card);
-      this.handCards.push(this.deck.pop() as Card);
-      this.opponentCards.push(this.deck.pop() as Card);
-      this.handCards.push(this.deck.pop() as Card);
-      this.opponentCards.push(this.deck.pop() as Card);
-      this.boardConfiguration = [emptyCard, emptyCard, emptyCard, emptyCard, this.startingCard, emptyCard, emptyCard, emptyCard, emptyCard];
-      this.round += 1;
+    // Removes cards from the deck, and puts them into the starting positions/hands.
+    this.startingCard = this.deck.pop() as Card;
+    this.handCards.push(this.deck.pop() as Card);
+    this.opponentCards.push(this.deck.pop() as Card);
+    this.handCards.push(this.deck.pop() as Card);
+    this.opponentCards.push(this.deck.pop() as Card);
+    this.handCards.push(this.deck.pop() as Card);
+    this.opponentCards.push(this.deck.pop() as Card);
+    this.handCards.push(this.deck.pop() as Card);
+    this.opponentCards.push(this.deck.pop() as Card);
+    this.boardConfiguration = [emptyCard, emptyCard, emptyCard, emptyCard, this.startingCard, emptyCard, emptyCard, emptyCard, emptyCard];
+    this.round += 1;
+    if (!this.isPlayerTurn && this.opponentCards.length > 0) {
+      this.opponentPlay();
     }
   }
 
@@ -154,6 +156,7 @@ export class GameComponent {
         index += 1;
       }
     }
+    this.isPlayerTurn = true;
   }
 
 }

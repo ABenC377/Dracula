@@ -18,17 +18,17 @@
   <div class="gameSettings">
     <p>Would you like your turn to be first? (default is second)
     <label class="switch">
-      <input type="checkbox" id="isPlayerTurn" (change)="changePlayerTurn()">
+      <input type="checkbox" id="isPlayerTurn" (change)="isPlayerTurn=!isPlayerTurn">
       <span class="slider round"></span>
     </label></p>
     <p>Would you like to be Kings? (default is Queens)
     <label class="switch">
-      <input type="checkbox" id="playerIsKings" (change)="changePlayerSuit()">
+      <input type="checkbox" id="playerIsKings" (change)="playerIsKings=!playerIsKings">
       <span class="slider round"></span>
     </label></p>
     <p>Would you like to score on the columns? (default is rows)
     <label class="switch">
-      <input type="checkbox" id="playerIsCols" (change)="changePlayerDirection">
+      <input type="checkbox" id="playerIsCols" (change)="playerIsCols=!playerIsCols">
       <span class="slider round"></span>
     </label></p>
   </div>

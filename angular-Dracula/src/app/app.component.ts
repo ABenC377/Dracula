@@ -23,16 +23,4 @@ export class AppComponent {
   startGame() {
     this.playGame = true;
   }
-
-  changePlayerTurn() {
-    this.isPlayerTurn = !this.isPlayerTurn;
-  }
-
-  changePlayerSuit() {
-    this.playerIsKings = !this.playerIsKings;
-  }
-
-  changePlayerDirection() {
-    this.playerIsCols = !this.playerIsCols;
-  }
 }
