@@ -8,19 +8,31 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title: string;
   playGame: boolean;
-  playerTurn: boolean;
-  playerIsKing: boolean;
+  isPlayerTurn: boolean;
+  playerIsKings: boolean;
   playerIsCols: boolean;
 
   constructor() {
     this.title = "Dracula";
     this.playGame = false;
-    this.playerTurn = true;
-    this.playerIsKing = true;
-    this.playerIsCols = true;
+    this.isPlayerTurn = false;
+    this.playerIsKings = false;
+    this.playerIsCols = false;
   }
 
   startGame() {
     this.playGame = true;
+  }
+
+  changePlayerTurn() {
+    this.isPlayerTurn = !this.isPlayerTurn;
+  }
+
+  changePlayerSuit() {
+    this.playerIsKings = !this.playerIsKings;
+  }
+
+  changePlayerDirection() {
+    this.playerIsCols = !this.playerIsCols;
   }
 }

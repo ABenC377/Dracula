@@ -1,29 +1,44 @@
 <div>
   <div class="information">
-    <p>The columns are the player's score, and the row's are the opponent's score</p>
-    <p>The Kings score on the columns, the Queens score on the rows</p>
+    <ng-template [ngIf]="playerIsKings" [ngIfElse]="playerIsQueens">
+      <h3>You are Kings.  Therefore, Kings are worth 10 points to you, and Queens are worth 0 points to you.</h3>
+      <h3>Vice versa, Kings are worth 0 points to your opponent, and Queens are worth 10 points to them.</h3>
+    </ng-template>
+
+    <ng-template #playerIsQueens>
+      <h3>You are Queens.  Therefore, Queens are worth 10 points to you, and Kings are worth 0 points to you.</h3>
+      <h3>Vice versa, Queens are worth 0 points to your opponent, and Kings are worth 10 points to them.</h3>
+    </ng-template>
+    <br>
+    <ng-template [ngIf]="playerIsCols" [ngIfElse]="playerIsRows">
+      <h3>You score down the columns, and your opponent scores along the rows.</h3>
+    </ng-template>
+
+    <ng-template #playerIsRows>
+      <h3>You score along the Rows, and your opponent scores down the columns.</h3>
+    </ng-template>
   </div>
   <table>
     <tr>
       <td class="blank"></td>
-      <td class="colScore" id="col1Score"><app-line-score [isKing]="isKing" [lineCards]="col1" (scoreUpdated)="onScoreUpdatedCol1($event)"></app-line-score></td>
-      <td class="colScore" id="col2Score"><app-line-score [isKing]="isKing" [lineCards]="col2" (scoreUpdated)="onScoreUpdatedCol2($event)"></app-line-score></td>
-      <td class="colScore" id="col3Score"><app-line-score [isKing]="isKing" [lineCards]="col3" (scoreUpdated)="onScoreUpdatedCol3($event)"></app-line-score></td>
+      <td class="colScore" id="col1Score"><app-line-score [scoreKings]="columnsScoreKings" [lineCards]="col1" (scoreUpdated)="onScoreUpdatedCol1($event)"></app-line-score></td>
+      <td class="colScore" id="col2Score"><app-line-score [scoreKings]="columnsScoreKings" [lineCards]="col2" (scoreUpdated)="onScoreUpdatedCol2($event)"></app-line-score></td>
+      <td class="colScore" id="col3Score"><app-line-score [scoreKings]="columnsScoreKings" [lineCards]="col3" (scoreUpdated)="onScoreUpdatedCol3($event)"></app-line-score></td>
     </tr>
     <tr>
-      <td class="rowScore" id="row1Score"><app-line-score [isKing]="!isKing" [lineCards]="row1" (scoreUpdated)="onScoreUpdatedRow1($event)"></app-line-score></td>
+      <td class="rowScore" id="row1Score"><app-line-score [scoreKings]="!columnsScoreKings" [lineCards]="row1" (scoreUpdated)="onScoreUpdatedRow1($event)"></app-line-score></td>
       <td><app-card [card]="card1" (selectCard)="onSelectCard1($event)"></app-card></td>
       <td><app-card [card]="card2" (selectCard)="onSelectCard2($event)"></app-card></td>
       <td><app-card [card]="card3" (selectCard)="onSelectCard3($event)"></app-card></td>
     </tr>
     <tr>
-      <td class="rowScore" id="row2Score"><app-line-score [isKing]="!isKing" [lineCards]="row2" (scoreUpdated)="onScoreUpdatedRow2($event)"></app-line-score></td>
+      <td class="rowScore" id="row2Score"><app-line-score [scoreKings]="!columnsScoreKings" [lineCards]="row2" (scoreUpdated)="onScoreUpdatedRow2($event)"></app-line-score></td>
       <td><app-card [card]="card4" (selectCard)="onSelectCard4($event)"></app-card></td>
       <td><app-card [card]="card5" (selectCard)="onSelectCard5($event)"></app-card></td>
       <td><app-card [card]="card6" (selectCard)="onSelectCard6($event)"></app-card></td>
     </tr>
     <tr>
-      <td class="rowScore" id="row3Score"><app-line-score [isKing]="!isKing" [lineCards]="row3" (scoreUpdated)="onScoreUpdatedRow3($event)"></app-line-score></td>
+      <td class="rowScore" id="row3Score"><app-line-score [scoreKings]="!columnsScoreKings" [lineCards]="row3" (scoreUpdated)="onScoreUpdatedRow3($event)"></app-line-score></td>
       <td><app-card [card]="card7" (selectCard)="onSelectCard7($event)"></app-card></td>
       <td><app-card [card]="card8" (selectCard)="onSelectCard8($event)"></app-card></td>
       <td><app-card [card]="card9" (selectCard)="onSelectCard9($event)"></app-card></td>

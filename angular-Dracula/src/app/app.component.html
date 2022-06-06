@@ -2,7 +2,11 @@
 
 <ng-template [ngIf]="playGame" [ngIfElse]="inviteToStartGame">
   <div >
-    <app-game></app-game>
+    <app-game
+      [isPlayerTurn]="isPlayerTurn"
+      [playerIsKings]="playerIsKings"
+      [playerIsCols]="playerIsCols"
+    ></app-game>
   </div>
 </ng-template>
 
@@ -10,6 +14,23 @@
   <div>
     <p>Would you like to play Dracula?</p>
     <button type="startGame" name="startGame" (click)="startGame()">Play</button>
+  </div>
+  <div class="gameSettings">
+    <p>Would you like your turn to be first? (default is second)
+    <label class="switch">
+      <input type="checkbox" id="isPlayerTurn" (change)="changePlayerTurn()">
+      <span class="slider round"></span>
+    </label></p>
+    <p>Would you like to be Kings? (default is Queens)
+    <label class="switch">
+      <input type="checkbox" id="playerIsKings" (change)="changePlayerSuit()">
+      <span class="slider round"></span>
+    </label></p>
+    <p>Would you like to score on the columns? (default is rows)
+    <label class="switch">
+      <input type="checkbox" id="playerIsCols" (change)="changePlayerDirection">
+      <span class="slider round"></span>
+    </label></p>
   </div>
 </ng-template>
 

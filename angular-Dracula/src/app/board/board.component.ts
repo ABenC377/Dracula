@@ -6,8 +6,7 @@ import { Card } from '../card';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css']
 })
-export class BoardComponent {
-  isKing: boolean;
+export class BoardComponent implements OnInit {
   scores: number[];
   card1!: Card;
   card2!: Card;
@@ -24,20 +23,28 @@ export class BoardComponent {
   col1!: Card[];
   col2!: Card[];
   col3!: Card[];
+  columnsScoreKings!: boolean;
 
   @Input() boardConfiguration!: Card[];
   @Input() handCardSelected!: boolean;
   @Input() selectedHandCard!: Card;
+  @Input() playerIsCols!: boolean;
+  @Input() playerIsKings!: boolean;
 
   @Output() handCardPlayed: EventEmitter<Card> = new EventEmitter<Card>();
   @Output() scoresUpdated: EventEmitter<number[]> = new EventEmitter<number[]>();
 
   constructor() {
-    // As a default, we set this to true, though we will alter implemnt this to be changable before the game.
-    this.isKing = true;
-
     // The first three values are the column scores, and the last three are the row scores
     this.scores = [0, 0, 0, 0, 0, 0];
+  }
+
+  ngOnInit():void {
+    if ((this.playerIsCols && this.playerIsKings) || (!this.playerIsCols && !this.playerIsKings)) {
+      this.columnsScoreKings = true;
+    } else {
+      this.columnsScoreKings = false;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {

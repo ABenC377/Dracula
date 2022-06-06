@@ -10,9 +10,6 @@ import { DECK } from '../card-deck';
 export class GameComponent implements OnInit {
   deck: Card[];
   round: number;
-  playerTurn: boolean;
-  playerIsKing: boolean;
-  playerIsCols: boolean;
   handCards: Card[];
   opponentCards: Card[];
   roundScores: number[];
@@ -23,12 +20,13 @@ export class GameComponent implements OnInit {
   selectedHandCard!: Card;
   handCardSelected!: boolean;
 
+  @Input() isPlayerTurn!: boolean;
+  @Input() playerIsKings!: boolean;
+  @Input() playerIsCols!: boolean;
+
   constructor(){
     this.deck = DECK;
     this.round = 0;
-    this.playerTurn = true;
-    this.playerIsKing = true;
-    this.playerIsCols = true;
     this.handCards = [];
     this.opponentCards = [];
     this.selectedHandCard = emptyCard;
@@ -148,7 +146,7 @@ export class GameComponent implements OnInit {
       if (this.boardConfiguration[index].suit == "empty" && this.isPlayable(index)){
         this.boardConfiguration[index] = this.opponentCards.pop() as Card;
         opponentCardHasBeenPlayed = true;
-        this.playerTurn = true;
+        this.isPlayerTurn = true;
       } else {
         index += 1;
       }

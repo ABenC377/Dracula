@@ -17,7 +17,7 @@ export class LineScoreComponent {
   jokerPlayed: boolean;
 
 
-  @Input() isKing!: boolean;
+  @Input() scoreKings!: boolean;
   @Input() lineCards!: Card[];
 
   @Output() scoreUpdated: EventEmitter<number> = new EventEmitter<number>();
@@ -59,7 +59,7 @@ export class LineScoreComponent {
       }
 
       // Add the card score to the total score
-      if (this.isKing){
+      if (this.scoreKings){
         this.totalScore += lineCard.KValue;
       } else {
         this.totalScore += lineCard.QValue;
