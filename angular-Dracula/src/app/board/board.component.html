@@ -1,22 +1,19 @@
 <div>
   <div class="information">
+    <br>
     <ng-template [ngIf]="playerIsKings" [ngIfElse]="playerIsQueens">
-      <h3>You are Kings.  Therefore, Kings are worth 10 points to you, and Queens are worth 0 points to you.</h3>
-      <h3>Vice versa, Kings are worth 0 points to your opponent, and Queens are worth 10 points to them.</h3>
+      <h5>You are Kings.  Therefore, Kings are worth 10 points to you, and Queens are worth 0 points to you.  Vice versa, Kings are worth 0 points to your opponent, and Queens are worth 10 points to them.</h5>
     </ng-template>
-
     <ng-template #playerIsQueens>
-      <h3>You are Queens.  Therefore, Queens are worth 10 points to you, and Kings are worth 0 points to you.</h3>
-      <h3>Vice versa, Queens are worth 0 points to your opponent, and Kings are worth 10 points to them.</h3>
+      <h5>You are Queens.  Therefore, Queens are worth 10 points to you, and Kings are worth 0 points to you.  Vice versa, Queens are worth 0 points to your opponent, and Kings are worth 10 points to them.</h5>
+    </ng-template>
+    <ng-template [ngIf]="playerIsCols" [ngIfElse]="playerIsRows">
+      <h5>You score down the columns, and your opponent scores along the rows.</h5>
+    </ng-template>
+    <ng-template #playerIsRows>
+      <h5>You score along the Rows, and your opponent scores down the columns.</h5>
     </ng-template>
     <br>
-    <ng-template [ngIf]="playerIsCols" [ngIfElse]="playerIsRows">
-      <h3>You score down the columns, and your opponent scores along the rows.</h3>
-    </ng-template>
-
-    <ng-template #playerIsRows>
-      <h3>You score along the Rows, and your opponent scores down the columns.</h3>
-    </ng-template>
   </div>
   <table>
     <tr>

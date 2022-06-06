@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Card, emptyCard } from '../card'
 import { DECK } from '../card-deck';
 
@@ -7,7 +7,7 @@ import { DECK } from '../card-deck';
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
-export class GameComponent implements OnInit {
+export class GameComponent {
   deck: Card[];
   round: number;
   handCards: Card[];
@@ -42,67 +42,69 @@ export class GameComponent implements OnInit {
   }
 
   onHandCardPlayed(playedCard: Card){
-    // We make a new temporary hand
-    let newHand: Card[] = [];
-    // Iterate through the previous hand, and where the card is not the played card,
-    // add it to the temporary hand.
-    for (let i = 0; i < this.handCards.length; i += 1){
-      let ithCard = this.handCards[i];
-      if (ithCard.id != playedCard.id){
-        newHand.push(ithCard)
-      }
-    }
-    // Then replace the hand with the temporary hand.
-    this.handCards = newHand;
-    // Finally, we update the handCardSelected variable to reflect that a hand card is no longer selected.
+    // Update hand to remove played card
+    this.updateHand(playedCard);
+    // Update the handCardSelected variable to reflect that a hand card is no longer selected.
     this.handCardSelected = false;
-
-    // And then we make the opponent make a move
+    // Opponent make a move
     if (this.opponentCards.length > 0){
       this.opponentPlay();
     }
-
-    // And then we see if the round is over.
-    // If it is, then we update the total scores, and start a new round.
+    // Check whether the round is over. If it is, then we update the total scores, and start a new round.
     if (this.handCards.length == 0 && this.opponentCards.length == 0) {
-      let bestColScore: number = 0;
-      let bestRowScore: number = 0;
-      for (let i = 0; i < 3; i += 1){
-        if (this.roundScores[i] > bestColScore) {
-          bestColScore = this.roundScores[i];
-        }
-      }
-      for (let i = 3; i < 6; i += 1) {
-        if (this.roundScores[i] > bestRowScore) {
-          bestRowScore = this.roundScores[i];
-        }
-      }
+      this.updateScoresAfterRound();
 
-      if (this.playerIsCols) {
-        this.playerScores.push(bestColScore);
-        this.opponentScores.push(bestRowScore);
-      } else {
-        this.playerScores.push(bestRowScore);
-        this.opponentScores.push(bestColScore);
-      }
       if (this.round >= 6) {
         // End the game here
-      }
-      // Pop up a message about the winner of that round
-      else {
+      } else {
+        // Start next round
         setTimeout(() => this.dealRound(), 5000);
       }
 
     }
   }
 
+  updateHand(cardPlayed: Card) {
+    // We make a new temporary hand
+    let newHand: Card[] = [];
+    // Iterate through the previous hand, and where the card is not the played card,
+    // add it to the temporary hand.
+    for (let i = 0; i < this.handCards.length; i += 1){
+      let ithCard = this.handCards[i];
+      if (ithCard.id != cardPlayed.id){
+        newHand.push(ithCard)
+      }
+    }
+    // Then replace the hand with the temporary hand.
+    this.handCards = newHand;
+  }
+
   onScoresUpdated(newScores: number[]){
     this.roundScores = newScores;
   }
 
-  ngOnInit(){
-    this.dealRound();
+  updateScoresAfterRound() {
+    let bestColScore: number = 0;
+    let bestRowScore: number = 0;
+    for (let i = 0; i < 3; i += 1){
+      if (this.roundScores[i] > bestColScore) {
+        bestColScore = this.roundScores[i];
+      }
     }
+    for (let i = 3; i < 6; i += 1) {
+      if (this.roundScores[i] > bestRowScore) {
+        bestRowScore = this.roundScores[i];
+      }
+    }
+
+    if (this.playerIsCols) {
+      this.playerScores.push(bestColScore);
+      this.opponentScores.push(bestRowScore);
+    } else {
+      this.playerScores.push(bestRowScore);
+      this.opponentScores.push(bestColScore);
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges){
     // Check to see if round is over, and starts a new round if it is
@@ -139,6 +141,7 @@ export class GameComponent implements OnInit {
     }
   }
 
+  // This is currently very dumb.  Improve later.
   opponentPlay(): void{
     let opponentCardHasBeenPlayed: boolean = false;
     let index: number = 0;
