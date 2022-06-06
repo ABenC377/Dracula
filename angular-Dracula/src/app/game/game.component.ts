@@ -83,12 +83,10 @@ export class GameComponent implements OnInit {
         bestRowScore = this.roundScores[i];
       }
     }
-
+    this.playerScores.push(bestRowScore);
     if (this.playerIsCols) {
-      this.playerScores.push(bestColScore);
       this.opponentScores.push(bestRowScore);
     } else {
-      this.playerScores.push(bestRowScore);
       this.opponentScores.push(bestColScore);
     }
   }
