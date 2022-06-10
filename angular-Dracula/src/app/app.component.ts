@@ -20,7 +20,12 @@ export class AppComponent {
     this.playerIsCols = false;
   }
 
-  startGame() {
+  startGame(): void {
     this.playGame = true;
+  }
+
+  onGameFinished(gameScores: number[]): void {
+    let playerScore: number = gameScores[0];
+    let opponentScore: number = gameScores[1];
   }
 }

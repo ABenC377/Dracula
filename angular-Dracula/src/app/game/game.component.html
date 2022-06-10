@@ -6,16 +6,25 @@
   ></app-scores>
 </div>
 
-<div class="board">
-    <app-board
-      [boardConfiguration]="boardConfiguration"
-      [handCardSelected]="handCardSelected"
-      [selectedHandCard]="selectedHandCard"
-      [playerIsKings]="playerIsKings"
-      [playerIsCols]="playerIsCols"
-      (handCardPlayed)="onHandCardPlayed($event)"
-      (scoresUpdated)="onScoresUpdated($event)">
-    </app-board>
+<div>
+  <ng-template [ngIf]="roundCurrentlyBeingPlayed" [ngIfElse]="inviteToStartRound">
+    <div class="board">
+      <app-board
+        [boardConfiguration]="boardConfiguration"
+        [handCardSelected]="handCardSelected"
+        [selectedHandCard]="selectedHandCard"
+        [playerIsKings]="playerIsKings"
+        [playerIsCols]="playerIsCols"
+        (handCardPlayed)="onHandCardPlayed($event)"
+        (scoresUpdated)="onScoresUpdated($event)">
+      </app-board>
+    </div>
+  </ng-template>
+  <ng-template #inviteToStartRound>
+    <div>
+      <button (click)="startNextRound()">Start Next Round</button>
+    </div>
+  </ng-template>
 </div>
 
 <div class="hand">

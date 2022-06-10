@@ -1,3 +1,4 @@
+import { ThisReceiver } from '@angular/compiler';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Card, emptyCard } from '../card'
 import { DECK } from '../card-deck';
@@ -19,12 +20,15 @@ export class GameComponent implements OnInit {
   boardConfiguration!: Card[];
   selectedHandCard!: Card;
   handCardSelected!: boolean;
+  playerScoreTotal: number;
+  opponentScoreTotal: number;
+  roundCurrentlyBeingPlayed: boolean;
 
   @Input() isPlayerTurn!: boolean;
   @Input() playerIsKings!: boolean;
   @Input() playerIsCols!: boolean;
 
-  @Output() gameFinished: EventEmitter<number[]> = new EventEmitter<number[]>;
+  @Output() gameFinished: EventEmitter<number[]> = new EventEmitter<number[]>();
 
   constructor(){
     this.deck = DECK;
@@ -36,6 +40,9 @@ export class GameComponent implements OnInit {
     this.roundScores = [0, 0, 0, 0, 0, 0];
     this.playerScores = [];
     this.opponentScores = [];
+    this.playerScoreTotal = 0;
+    this.opponentScoreTotal = 0;
+    this.roundCurrentlyBeingPlayed = true;
   }
 
   onForwardSelectedCard(selectedCard: Card){
@@ -85,11 +92,16 @@ export class GameComponent implements OnInit {
         bestRowScore = this.roundScores[i];
       }
     }
-    this.playerScores.push(bestRowScore);
     if (this.playerIsCols) {
+      this.playerScores.push(bestColScore);
+      this.playerScoreTotal += bestColScore;
       this.opponentScores.push(bestRowScore);
+      this.opponentScoreTotal += bestRowScore;
     } else {
+      this.playerScores.push(bestRowScore);
+      this.playerScoreTotal += bestRowScore;
       this.opponentScores.push(bestColScore);
+      this.opponentScoreTotal += bestColScore;
     }
   }
 
@@ -105,10 +117,10 @@ export class GameComponent implements OnInit {
     if (this.handCards.length == 0 && this.opponentCards.length == 0){
       if (this.round >= 6) {
         this.updateScoresAfterRound();
-        // End the game here
+        this.gameFinished.emit([this.playerScoreTotal, this.opponentScoreTotal]);
       } else {
         this.updateScoresAfterRound();
-        setTimeout(() => this.dealRound(), 5000);
+        setTimeout(() => this.roundCurrentlyBeingPlayed = false, 500);
       }
     }
     // Check to see if it is opponent's turn, and opponent has cards to play
@@ -157,6 +169,11 @@ export class GameComponent implements OnInit {
       }
     }
     this.isPlayerTurn = true;
+  }
+
+  startNextRound(): void {
+    this.dealRound();
+    this.roundCurrentlyBeingPlayed = true;
   }
 
 }

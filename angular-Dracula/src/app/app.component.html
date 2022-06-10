@@ -1,11 +1,13 @@
 <h1>{{title}}</h1>
 
 <ng-template [ngIf]="playGame" [ngIfElse]="inviteToStartGame">
-  <div >
+  <div>
     <app-game
       [isPlayerTurn]="isPlayerTurn"
       [playerIsKings]="playerIsKings"
       [playerIsCols]="playerIsCols"
+
+      (gameFinished)="onGameFinished($event)"
     ></app-game>
   </div>
 </ng-template>
