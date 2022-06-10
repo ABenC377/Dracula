@@ -19,6 +19,10 @@
         (scoresUpdated)="onScoresUpdated($event)">
       </app-board>
     </div>
+
+    <div class="hand">
+      <app-hand [handCards]="handCards" [isPlayerTurn]="isPlayerTurn" (forwardSelectedCard)="onForwardSelectedCard($event)"></app-hand>
+    </div>
   </ng-template>
   <ng-template #inviteToStartRound>
     <div>
@@ -27,6 +31,3 @@
   </ng-template>
 </div>
 
-<div class="hand">
-  <app-hand [handCards]="handCards" [isPlayerTurn]="isPlayerTurn" (forwardSelectedCard)="onForwardSelectedCard($event)"></app-hand>
-</div>

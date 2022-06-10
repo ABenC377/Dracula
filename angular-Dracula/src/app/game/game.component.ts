@@ -15,13 +15,13 @@ export class GameComponent implements OnInit {
   opponentCards: Card[];
   roundScores: number[];
   playerScores: number[];
+  playerScoreTotal: number;
   opponentScores: number[];
+  opponentScoreTotal: number;
   startingCard!: Card;
   boardConfiguration!: Card[];
   selectedHandCard!: Card;
   handCardSelected!: boolean;
-  playerScoreTotal: number;
-  opponentScoreTotal: number;
   roundCurrentlyBeingPlayed: boolean;
 
   @Input() isPlayerTurn!: boolean;
@@ -39,8 +39,8 @@ export class GameComponent implements OnInit {
     this.handCardSelected = false;
     this.roundScores = [0, 0, 0, 0, 0, 0];
     this.playerScores = [];
-    this.opponentScores = [];
     this.playerScoreTotal = 0;
+    this.opponentScores = [];
     this.opponentScoreTotal = 0;
     this.roundCurrentlyBeingPlayed = true;
   }
@@ -94,13 +94,13 @@ export class GameComponent implements OnInit {
     }
     if (this.playerIsCols) {
       this.playerScores.push(bestColScore);
-      this.playerScoreTotal += bestColScore;
       this.opponentScores.push(bestRowScore);
+      this.playerScoreTotal += bestColScore;
       this.opponentScoreTotal += bestRowScore;
     } else {
       this.playerScores.push(bestRowScore);
-      this.playerScoreTotal += bestRowScore;
       this.opponentScores.push(bestColScore);
+      this.playerScoreTotal += bestRowScore;
       this.opponentScoreTotal += bestColScore;
     }
   }
