@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Card, emptyCard } from '../card'
 import { DECK } from '../card-deck';
 
@@ -23,6 +23,8 @@ export class GameComponent implements OnInit {
   @Input() isPlayerTurn!: boolean;
   @Input() playerIsKings!: boolean;
   @Input() playerIsCols!: boolean;
+
+  @Output() gameFinished: EventEmitter<number[]> = new EventEmitter<number[]>;
 
   constructor(){
     this.deck = DECK;

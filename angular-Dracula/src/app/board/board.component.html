@@ -18,24 +18,24 @@
   <table>
     <tr>
       <td class="blank"></td>
-      <td class="colScore" id="col1Score"><app-line-score [scoreKings]="columnsScoreKings" [lineCards]="col1" (scoreUpdated)="onScoreUpdatedCol1($event)"></app-line-score></td>
-      <td class="colScore" id="col2Score"><app-line-score [scoreKings]="columnsScoreKings" [lineCards]="col2" (scoreUpdated)="onScoreUpdatedCol2($event)"></app-line-score></td>
-      <td class="colScore" id="col3Score"><app-line-score [scoreKings]="columnsScoreKings" [lineCards]="col3" (scoreUpdated)="onScoreUpdatedCol3($event)"></app-line-score></td>
+      <td class="colScore" id="col1Score">{{ scores[0] }}</td>
+      <td class="colScore" id="col2Score">{{ scores[1] }}</td>
+      <td class="colScore" id="col3Score">{{ scores[2] }}</td>
     </tr>
     <tr>
-      <td class="rowScore" id="row1Score"><app-line-score [scoreKings]="!columnsScoreKings" [lineCards]="row1" (scoreUpdated)="onScoreUpdatedRow1($event)"></app-line-score></td>
+      <td class="rowScore" id="row1Score">{{ scores[3] }}</td>
       <td><app-card [card]="card1" (selectCard)="onSelectCard1($event)"></app-card></td>
       <td><app-card [card]="card2" (selectCard)="onSelectCard2($event)"></app-card></td>
       <td><app-card [card]="card3" (selectCard)="onSelectCard3($event)"></app-card></td>
     </tr>
     <tr>
-      <td class="rowScore" id="row2Score"><app-line-score [scoreKings]="!columnsScoreKings" [lineCards]="row2" (scoreUpdated)="onScoreUpdatedRow2($event)"></app-line-score></td>
+      <td class="rowScore" id="row2Score">{{ scores[4] }}</td>
       <td><app-card [card]="card4" (selectCard)="onSelectCard4($event)"></app-card></td>
       <td><app-card [card]="card5" (selectCard)="onSelectCard5($event)"></app-card></td>
       <td><app-card [card]="card6" (selectCard)="onSelectCard6($event)"></app-card></td>
     </tr>
     <tr>
-      <td class="rowScore" id="row3Score"><app-line-score [scoreKings]="!columnsScoreKings" [lineCards]="row3" (scoreUpdated)="onScoreUpdatedRow3($event)"></app-line-score></td>
+      <td class="rowScore" id="row3Score">{{ scores[5] }}</td>
       <td><app-card [card]="card7" (selectCard)="onSelectCard7($event)"></app-card></td>
       <td><app-card [card]="card8" (selectCard)="onSelectCard8($event)"></app-card></td>
       <td><app-card [card]="card9" (selectCard)="onSelectCard9($event)"></app-card></td>

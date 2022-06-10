@@ -64,6 +64,13 @@ export class BoardComponent implements OnInit {
     this.col1 = [this.card1, this.card4, this.card7];
     this.col2 = [this.card2, this.card5, this.card8];
     this.col3 = [this.card3, this.card6, this.card9];
+    this.scores[0] = this.getScore(this.col1, this.columnsScoreKings);
+    this.scores[1] = this.getScore(this.col2, this.columnsScoreKings);
+    this.scores[2] = this.getScore(this.col3, this.columnsScoreKings);
+    this.scores[3] = this.getScore(this.row1, !this.columnsScoreKings);
+    this.scores[4] = this.getScore(this.row2, !this.columnsScoreKings);
+    this.scores[5] = this.getScore(this.row3, !this.columnsScoreKings);
+    this.scoresUpdated.emit(this.scores);
   }
 
   // When a card is selected on the board, we check to see if a card has already been selected in the hand.
@@ -191,34 +198,66 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  // When a score is updated, update the current score array
-  onScoreUpdatedCol1(newScore: number){
-    this.scores[0] = newScore;
-    this.scoresUpdated.emit(this.scores);
-  }
 
-  onScoreUpdatedCol2(newScore: number){
-    this.scores[1] = newScore;
-    this.scoresUpdated.emit(this.scores);
-  }
+  getScore(cards: Card[], kingsScore: boolean): number {
+    let jokerPlayed: boolean = false;
+    let score: number = 0;
+    let totalBlacks: number = 0;
+    let totalReds: number = 0;
+    let totalClubs: number = 0;
+    let totalDiamonds: number = 0;
+    let totalHearts: number = 0;
+    let totalSpades: number = 0;
 
-  onScoreUpdatedCol3(newScore: number){
-    this.scores[2] = newScore;
-    this.scoresUpdated.emit(this.scores);
-  }
+    for (let i: number = 0; i < cards.length; i ++) {
+      let lineCard: Card = cards[i];
 
-  onScoreUpdatedRow1(newScore: number){
-    this.scores[3] = newScore;
-    this.scoresUpdated.emit(this.scores);
-  }
+      // if the card is an empty card then can ignore
+      if (lineCard.value == "empty"){
+        continue;
+      }
+      
+      // If a joker is played then can ignore the maths steps
+      else if (lineCard.value == "Joker"){
+        jokerPlayed = true;
+        continue;
+      }
 
-  onScoreUpdatedRow2(newScore: number){
-    this.scores[4] = newScore;
-    this.scoresUpdated.emit(this.scores);
-  }
+      // Add the card score to the total score
+      if (kingsScore){
+        score += lineCard.KValue;
+      } else {
+        score += lineCard.QValue;
+      }
 
-  onScoreUpdatedRow3(newScore: number){
-    this.scores[5] = newScore;
-    this.scoresUpdated.emit(this.scores);
+      // Add the suit and colour to the counters
+      if (lineCard.suit == "Clubs"){
+        totalBlacks += 1;
+        totalClubs += 1;
+      } else if (lineCard.suit == "Diamonds"){
+        totalReds += 1;
+        totalDiamonds += 1;
+      } else if (lineCard.suit == "Hearts"){
+        totalReds += 1;
+        totalHearts += 1;
+      } else if (lineCard.suit == "Spades"){
+        totalBlacks += 1;
+        totalSpades += 1;
+      }
+    };
+
+    // Now multiply depending on the suit/colour/joker counters
+    if (jokerPlayed == true){
+      score = 0;
+    }
+    if (totalClubs == 3 || totalDiamonds == 3 || totalHearts == 3 || totalSpades == 3){
+      score *= 5;
+    } else if (totalReds == 3 || totalBlacks == 3){
+      score *= 3;
+    } else if (totalClubs == 2 || totalDiamonds == 2 || totalHearts == 2 || totalSpades == 2){
+      score *= 2;
+    }
+    
+    return score;
   }
 }

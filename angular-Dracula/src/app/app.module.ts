@@ -9,7 +9,6 @@ import { GameComponent } from './game/game.component';
 import { ScoresComponent } from './scores/scores.component';
 import { BoardComponent } from './board/board.component';
 import { HandComponent } from './hand/hand.component';
-import { LineScoreComponent } from './line-score/line-score.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +18,6 @@ import { LineScoreComponent } from './line-score/line-score.component';
     ScoresComponent,
     BoardComponent,
     HandComponent,
-    LineScoreComponent
   ],
   imports: [
     BrowserModule,
