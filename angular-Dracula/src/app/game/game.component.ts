@@ -119,8 +119,7 @@ export class GameComponent implements OnInit {
         this.updateScoresAfterRound();
         this.gameFinished.emit([this.playerScoreTotal, this.opponentScoreTotal]);
       } else {
-        this.updateScoresAfterRound();
-        setTimeout(() => this.roundCurrentlyBeingPlayed = false, 500);
+        this.endRound();
       }
     }
     // Check to see if it is opponent's turn, and opponent has cards to play
@@ -169,6 +168,11 @@ export class GameComponent implements OnInit {
       }
     }
     this.isPlayerTurn = true;
+  }
+
+  endRound(): void {
+    this.roundCurrentlyBeingPlayed = false;
+    this.updateScoresAfterRound();
   }
 
   startNextRound(): void {
